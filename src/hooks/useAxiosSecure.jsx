@@ -1,6 +1,8 @@
+// src/hooks/useAxiosSecure.js
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 const axiosSecure = axios.create({
   baseURL: "http://localhost:3000",
@@ -8,13 +10,14 @@ const axiosSecure = axios.create({
 
 const useAxiosSecure = () => {
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
     // request interceptor
-    const reqInterceptor = axiosSecure.interceptors.request.use((config) => {
-      // If you have a token later, you can add it here
-      const token = localStorage.getItem("token");
-      if (token) {
+    const reqInterceptor = axiosSecure.interceptors.request.use(async (config) => {
+      const user = auth.currentUser;
+      if (user) {
+        const token = await user.getIdToken();
         config.headers.Authorization = `Bearer ${token}`;
       }
       return config;
@@ -37,7 +40,7 @@ const useAxiosSecure = () => {
       axiosSecure.interceptors.request.eject(reqInterceptor);
       axiosSecure.interceptors.response.eject(resInterceptor);
     };
-  }, [navigate]);
+  }, [navigate, auth]);
 
   return axiosSecure;
 };

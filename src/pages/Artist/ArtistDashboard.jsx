@@ -7,6 +7,8 @@ import {
 } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useAuth } from "../../firebase/auth";
+import toast from "react-hot-toast";
+
 
 const ArtistDashboard = () => {
   const axiosSecure = useAxiosSecure();
@@ -32,29 +34,33 @@ const ArtistDashboard = () => {
   });
 
   /* ---------------- Upload Content ---------------- */
-  const uploadMutation = useMutation({
-    mutationFn: (data) =>
-      axiosSecure.post("/api/content", {
-        title: data.title,
-        description: data.description,
-        artistId: user.uid,
-        artistName: user.email,
-        contentType: uploadType,
-        referenceLink: uploadType === "link" ? data.referenceLink : "",
-        fileName: uploadType === "file" ? data.file?.[0]?.name : "",
-        status: "Pending",
-        metrics: [],
-        createdAt: new Date(),
-      }),
-    onSuccess: () => {
-      reset();
-      queryClient.invalidateQueries({
-        queryKey: ["artist-contents"],
-      });
-      alert("Content submitted for review");
-      setActiveTab("overview");
-    },
-  });
+ const uploadMutation = useMutation({
+  mutationFn: (data) =>
+    axiosSecure.post("/api/content", {
+      title: data.title,
+      description: data.description,
+      artistId: user.uid,
+      artistName: user.email,
+      contentType: uploadType,
+      referenceLink: uploadType === "link" ? data.referenceLink : "",
+      fileName: uploadType === "file" ? data.file?.[0]?.name : "",
+      status: "Pending",
+      metrics: [],
+      createdAt: new Date(),
+    }),
+  onSuccess: () => {
+    reset();
+    queryClient.invalidateQueries({
+      queryKey: ["artist-contents", user.uid],
+    });
+    toast.success("Content submitted successfully for review!");
+    setActiveTab("overview");
+  },
+  onError: (error) => {
+    console.error(error);
+    toast.error("Failed to submit content: " + error.message);
+  },
+});
 
   /* ---------------- Helpers ---------------- */
   const getTotals = (metrics = []) =>

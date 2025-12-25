@@ -12,7 +12,15 @@ export const router = createBrowserRouter([
     path: "/",
     element: <RootLayout />,
     children: [
-      { index: true, element: <div className="text-center text-2xl">Welcome to FYTOBYTE</div> },
+      {
+        index: true,
+        element: (
+          <div className="flex items-center justify-center h-screen font-bold text-4xl">
+            WELCOME TO FYTOBYTE
+          </div>
+        )
+      },
+      
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
 

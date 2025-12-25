@@ -1,15 +1,28 @@
 // src/firebase/mongodbUser.js
 import axios from "axios";
+import { getAuth } from "firebase/auth";
 
-// Create a base axios instance (optional)
 const axiosSecure = axios.create({
   baseURL: "http://localhost:3000", // your backend URL
 });
 
-// Get user role by uid from MongoDB
 export const getUserRole = async (uid) => {
   try {
-    const res = await axiosSecure.get(`/api/users/${uid}`);
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) throw new Error("Not authenticated");
+
+    // Get Firebase ID token
+    const idToken = await currentUser.getIdToken();
+
+    // Send token in Authorization header
+    const res = await axiosSecure.get(`/api/users/${uid}`, {
+      headers: {
+        Authorization: `Bearer ${idToken}`,
+      },
+    });
+
     const user = res.data.user;
     if (user && user.role) return user.role;
     return null;
