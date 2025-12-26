@@ -1,16 +1,45 @@
-# React + Vite
+# Artist Content Approval Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack application for artists to submit content, track metrics, and for admins to review and approve submissions. Built with **React**, **Firebase Authentication**, **Node.js/Express**, and **MongoDB**, deployed on **Vercel**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## React Compiler
+- Artist registration & login using Firebase Authentication
+- Artists can upload content (link or file)
+- Track content metrics (views, revenue)
+- Admin dashboard to review and approve content
+- Role-based access control: Artist vs Admin
+- JWT/Firebase token authentication for secure API access
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Technologies Used
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Frontend: React, React Hook Form, React Query, Tailwind CSS
+- Backend: Node.js, Express
+- Database: MongoDB Atlas
+- Authentication: Firebase Auth & Firebase Admin SDK
+- Deployment: Vercel
+- Axios for HTTP requests
+
+---
+
+## Prerequisites
+
+- Node.js >= 18
+- Firebase project with web app setup
+- MongoDB Atlas cluster
+- `.env` file with the following variables:
+
+```env
+PORT=3000
+DB_USER=yourMongoDBUser
+DB_PASS=yourMongoDBPassword
+FB_SERVICE_KEY=base64_encoded_firebase_service_account
+
+## install and run
+- git clone https://github.com/Tanvir-173/artist-content-approval-revenue-tracking-client.git
+
+- npm run dev (localhost)
