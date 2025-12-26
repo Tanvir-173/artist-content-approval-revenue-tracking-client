@@ -3,7 +3,7 @@ import axios from "axios";
 import { getAuth } from "firebase/auth";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:3000", // your backend URL
+  baseURL: "https://artist-content-approval-revenue-tra.vercel.app", // your backend URL
 });
 
 export const getUserRole = async (uid) => {
